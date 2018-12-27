@@ -22,11 +22,13 @@ class Map extends Component {
       );
     }
 
+    const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
+
 
     return (
       <div style={{ height: '100vh', width: '70%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: '' }}
+          bootstrapURLKeys={{ key: API_KEY }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
@@ -35,6 +37,7 @@ class Map extends Component {
               lat = {museum.venue.location.lat}
               lng = {museum.venue.location.lng}
               icon = {MuseumIcon}
+              key = {museum.venue.id}
             />
           )
         }

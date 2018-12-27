@@ -14,11 +14,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const url = 'https://api.foursquare.com/v2/venues/explore?'
-
+    const url = 'https://api.foursquare.com/v2/venues/explore?';
+    const CLIENT_ID = process.env.REACT_APP_FOURSQUARE_ID;
+    const CLIENT_SECRET = process.env.REACT_APP_FOURSQUARE_SECRET;
     const params = {
-      client_id: "",
-      client_secret: "",
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
       query: "museums",
       limit: 5,
       near: "New York City",
