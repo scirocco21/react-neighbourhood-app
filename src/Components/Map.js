@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MuseumIcon from "../museum.png";
+import mapStyles from "../mapStyles.js"
 
 
 class Map extends Component {
@@ -24,6 +25,9 @@ class Map extends Component {
 
     const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY
 
+    const mapOptions = {
+      styles: mapStyles
+    }
 
     return (
       <div style={{ height: '100vh', width: '70%' }}>
@@ -31,6 +35,7 @@ class Map extends Component {
           bootstrapURLKeys={{ key: API_KEY }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
+          options = {mapOptions}
         >
           {this.props.museums.map(museum =>
             <Marker
