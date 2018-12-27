@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
-import GoogleMapReact from 'google-map-react';
+import MapContainer from './Components/MapContainer';
+import 'whatwg-fetch';
 import './App.css';
 
 class App extends Component {
-  static defaultProps = {
-    center: {
-      lat: 40.77,
-      lng: -73.96
-    },
-    zoom: 13
-  };
+
+  constructor() {
+    super();
+
+    this.state = {
+      museums: [],
+    };
+  }
+
+  componentDidMount() {
+    const url = 'https://api.foursquare.com/v2/venues/explore?'
+
+    const params = {
+      client_id: "",
+      client_secret: "",
+      query: "museums",
+      limit: 5,
+      near: "New York City",
+      v: "20182507"
+    }
+    fetch(url + new URLSearchParams(params), {
+      method: 'GET'
+    }).then(response => response.json()).then(response => this.setState({ museums: response.response.groups[0].items}))
+  }
 
   render() {
     return (
@@ -19,13 +37,7 @@ class App extends Component {
             NYC Museums Explorer
           </p>
         </header>
-        <div style={{ height: '100vh', width: '100%' }}>
-         <GoogleMapReact
-           bootstrapURLKeys={{ key: 'AIzaSyB5jtuQ6yhzNFto5HC0rN70krWSqAzupww' }}
-           defaultCenter={this.props.center}
-           defaultZoom={this.props.zoom}
-         />
-       </div>
+        <MapContainer museums={this.state.museums}/>
       </div>
     );
   }
