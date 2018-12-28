@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MapContainer from './Components/MapContainer';
 import 'whatwg-fetch';
-import './App.css';
+import './css/App.css';
 
 class App extends Component {
 
@@ -9,7 +9,7 @@ class App extends Component {
     super();
 
     this.state = {
-      museums: [],
+      museums: []
     };
   }
 
@@ -21,7 +21,7 @@ class App extends Component {
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       query: "museums",
-      limit: 5,
+      limit: 10,
       near: "New York City",
       v: "20182507"
     }
@@ -31,6 +31,7 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <div className="App">
         <header className="App-header">
