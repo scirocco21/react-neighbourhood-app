@@ -14,8 +14,8 @@ export default class SideBar extends Component {
   }
 
   render() {
-    const museumsList = this.props.museums.map(museum => <SideBarItem key={museum.venue.id} id={museum.venue.id} name={museum.venue.name}
-       handleClick={this.props.handleClick}/>)
+    const museumsList = this.props.museums.map(museum => <SideBarItem key={museum.venue.id} id={museum.venue.id} name={museum.venue.name} highlighted={museum.highlighted}
+       handleClick={this.props.animateMarker} toggleModal={this.props.toggleModal}/>)
 
        let showingItems;
        if (this.state.query) {
