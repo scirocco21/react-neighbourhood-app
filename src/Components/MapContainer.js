@@ -3,6 +3,7 @@ import Map from './Map';
 import SideBar from './SideBar'
 import MuseumIcon from "../assets/museum.png";
 import Marker from './Marker.js'
+import { Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
 import escapeRegExp from 'escape-string-regexp'
 
 
@@ -12,11 +13,19 @@ class MapContainer extends Component {
      this.state = {
        markers: [],
        filter: "",
-       museums: []
+       museums: [],
+       modal: false
      }
     }
 
-  componentWillReceiveProps(props) {
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
+  componentWillReceiveProps = props => {
     const museums = props.museums.map(museum => (
       { ...museum, highlighted: false })
     )
@@ -31,6 +40,7 @@ class MapContainer extends Component {
          active = {false}
          highlightLabel = {this.highlightLabel}
          removeHighlight = {this.removeHighlight}
+         toggleModal={this.toggle}
        />
      )
     this.setState({markers: markers});
@@ -39,8 +49,6 @@ class MapContainer extends Component {
 
   highlightLabel = (id) => {
     let museums = this.state.museums.map(museum => {
-      console.log(id)
-      console.log(museum.venue.id=== id)
       return museum.venue.id === id ? { ...museum, highlighted: true} : museum
     })
 
@@ -49,8 +57,6 @@ class MapContainer extends Component {
 
   removeHighlight = (id) => {
     let museums = this.state.museums.map(museum => {
-      console.log(id)
-      console.log(museum.venue.id=== id)
       return museum.venue.id === id ? { ...museum, highlighted: false} : museum
     })
 
@@ -87,7 +93,19 @@ class MapContainer extends Component {
     return (
       <div>
         <Map museums={this.props.museums} markers={showingMarkers}/>
-        <SideBar museums={this.state.museums} markers={showingMarkers} handleClick={this.handleClick} filterMarkers={this.filterMarkers} filter={this.state.filter}/>
+        <SideBar museums={this.state.museums} markers={showingMarkers} handleClick={this.handleClick} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle}/>
+        {/* modal */}
+        <div>
+         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+           <ModalBody>
+             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+           </ModalBody>
+           <ModalFooter>
+             Source: Foursquare API
+           </ModalFooter>
+         </Modal>
+       </div>
       </div>
     )
   }
