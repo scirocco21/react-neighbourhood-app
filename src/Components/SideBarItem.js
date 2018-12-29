@@ -1,11 +1,14 @@
-import React from 'react'
+import React, {Component} from 'react';
+import '../css/SideBarItem.css'
 
-const SideBarItem = (props) => {
-  return (
-    <div onClick={() => props.handleClick(props.id)}>
-      <h4>{props.name}</h4>
-    </div>
-  )
+export default class SideBarItem extends Component {
+  render() {
+    let activeClass = "";
+    this.props.highlighted ? activeClass = "highlight" : activeClass = ""
+    return (
+      <div onClick={() => this.props.handleClick(this.props.id)}>
+        <h4 className={activeClass}>{this.props.name}</h4>
+      </div>
+    )
+  }
 }
-
-export default SideBarItem;
