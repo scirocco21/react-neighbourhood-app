@@ -3,6 +3,7 @@ import Map from './Map';
 import SideBar from './SideBar'
 import MuseumIcon from "../assets/museum.png";
 import Marker from './Marker.js'
+import ErrorModal from './ErrorModal.js'
 import { Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
 import escapeRegExp from 'escape-string-regexp'
 
@@ -15,11 +16,19 @@ class MapContainer extends Component {
        filter: "",
        museums: [],
        modal: false,
-       selectedMuseum: {}
+       errorModal: false,
+       selectedMuseum: {},
      }
     }
 
+    // pull up error modal if Foursquare API can't be reached for venue details
+  toggleErrorModal = () => {
+    this.setState({
+      errorModal: !this.state.errorModal
+    });
+  }
 
+  // display venue details in modal when toggle function is called and successfully completes API call
   toggle = (id) => {
     if (this.state.modal === false) {
       const url = 'https://api.foursquare.com/v2/venues/';
@@ -32,7 +41,7 @@ class MapContainer extends Component {
       }
       fetch(url + id + "?&" + new URLSearchParams(params), {
         method: 'GET'
-      }).then(response => response.json()).then(response => this.setState({selectedMuseum: response.response.venue})).then(() => console.log(this.state.selectedMuseum))
+      }).then(response => response.json()).then(response => this.setState({selectedMuseum: response.response.venue})).catch(() => this.toggleErrorModal())
     } else {
       this.setState({selectedMuseum: {} })
     }
@@ -40,7 +49,7 @@ class MapContainer extends Component {
       modal: !this.state.modal
     });
   }
-
+  // build markers once App component updates props with musems list and set all museums to default state
   componentWillReceiveProps = props => {
     const museums = props.museums.map(museum => (
       { ...museum, highlighted: false })
@@ -59,8 +68,7 @@ class MapContainer extends Component {
          toggleModal={this.toggle}
        />
      )
-    this.setState({markers: markers});
-    this.setState({museums: museums})
+    this.setState({markers: markers, museums: museums})
   }
 
   highlightLabel = (id) => {
@@ -113,15 +121,14 @@ class MapContainer extends Component {
       <div>
         <Map museums={this.props.museums} markers={showingMarkers}/>
         <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle}/>
-        {/* modal */}
-        <div>
+        {/* details modal */}
          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
            <ModalHeader toggle={this.toggle}>{museum.name}</ModalHeader>
            <ModalBody>
              <img src={museum.bestPhoto && museum.bestPhoto.prefix + "250x250" + museum.bestPhoto.suffix} alt={museum.name}/>
-             <p><em>{museum.description || "No description available for this venue"}</em></p>
+             <p style={{paddingTop: "15px"}}><em>{museum.description || "No description available for this venue"}</em></p>
              <a href={museum.url}>{museum.url}</a>
-             <p>Rating: {museum.rating}</p>
+             <p>Rating: {museum.rating || "No rating available for this venue"}</p>
              <hr/>
              <p>{museum.hours && museum.hours.status}</p>
            </ModalBody>
@@ -129,8 +136,9 @@ class MapContainer extends Component {
              Source: Foursquare API
            </ModalFooter>
          </Modal>
+
+         <ErrorModal toggle={this.toggleErrorModal} modal={this.state.errorModal}/>
        </div>
-      </div>
     )
   }
 }
