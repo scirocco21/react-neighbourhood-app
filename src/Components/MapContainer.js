@@ -14,12 +14,28 @@ class MapContainer extends Component {
        markers: [],
        filter: "",
        museums: [],
-       modal: false
+       modal: false,
+       selectedMuseum: {}
      }
     }
 
 
-  toggle = () => {
+  toggle = (id) => {
+    if (this.state.modal === false) {
+      const url = 'https://api.foursquare.com/v2/venues/';
+      const CLIENT_ID = process.env.REACT_APP_FOURSQUARE_ID;
+      const CLIENT_SECRET = process.env.REACT_APP_FOURSQUARE_SECRET;
+      const params = {
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        v: "20182507"
+      }
+      fetch(url + id + "?&" + new URLSearchParams(params), {
+        method: 'GET'
+      }).then(response => response.json()).then(response => this.setState({selectedMuseum: response.response.venue})).then(() => console.log(this.state.selectedMuseum))
+    } else {
+      this.setState({selectedMuseum: {} })
+    }
     this.setState({
       modal: !this.state.modal
     });
@@ -63,7 +79,7 @@ class MapContainer extends Component {
     this.setState({museums: museums})
   }
 
-  handleClick = (id) => {
+  animateMarker = (id) => {
     // onClick in sidebar should trigger this function, which will move the marker with the same id as the sidebar item
      let markers = this.state.markers.map(marker => {
       return marker.props.id === id ? { ...marker, props: {...marker.props, active: true }} : marker
@@ -77,6 +93,7 @@ class MapContainer extends Component {
     })
     setTimeout(()=> this.setState({markers: markers}), 750)
   }
+
   filterMarkers = (query) => {
     this.setState({filter: query})
   }
@@ -90,16 +107,23 @@ class MapContainer extends Component {
       showingMarkers =  this.state.markers
     }
 
+    const museum = this.state.selectedMuseum
+
     return (
       <div>
         <Map museums={this.props.museums} markers={showingMarkers}/>
-        <SideBar museums={this.state.museums} markers={showingMarkers} handleClick={this.handleClick} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle}/>
+        <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle}/>
         {/* modal */}
         <div>
          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+           <ModalHeader toggle={this.toggle}>{museum.name}</ModalHeader>
            <ModalBody>
-             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+             <img src={museum.bestPhoto && museum.bestPhoto.prefix + "250x250" + museum.bestPhoto.suffix} alt={museum.name}/>
+             <p><em>{museum.description || "No description available for this venue"}</em></p>
+             <a href={museum.url}>{museum.url}</a>
+             <p>Rating: {museum.rating}</p>
+             <hr/>
+             <p>{museum.hours && museum.hours.status}</p>
            </ModalBody>
            <ModalFooter>
              Source: Foursquare API
