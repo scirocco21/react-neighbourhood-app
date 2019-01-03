@@ -4,7 +4,7 @@ import '../css/SideBarItem.css'
 export default class SideBarItem extends Component {
   clickHandler = () => {
     this.props.animateMarker(this.props.id);
-    this.props.toggleModal();
+    this.props.toggleModal(this.props.id);
   }
   render() {
     let activeClass = "";
