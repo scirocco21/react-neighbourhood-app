@@ -1,7 +1,6 @@
-
 .sidenav {
-  height: 100%;
-  width: 12.5%;
+  height: 110%;
+  width: 15%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -10,12 +9,45 @@
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
+  text-align: center;
 }
-
-.sidenav .closebtn {
+a.closebtn {
   position: absolute;
   top: 0;
-  right: 25px;
-  font-size: 36px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
   margin-left: 50px;
+  color: red;
+  text-decoration: none;
+}
+.closebtn:hover {
+  font-size: 28px;
+}
+a.openbtn {
+  position: absolute;
+  top: 8px;
+  font-size: 38px;
+  text-decoration: none;
+  color: red;
+  left: 1px;
+}
+.openbtn:hover {
+  font-size: 44px;
+}
+nav.hidden {
+  width: 35px;
+}
+a.button-hidden {
+  display: none;
+}
+@media only screen and (max-width: 865px) {
+    .sidenav {
+      width: 33%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    .sidenav {
+      width: 40%;
+    }
 }
