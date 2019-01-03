@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import mapStyles from "../assets/mapStyles.js"
-import "../css/Map.css"
-
 
 class Map extends Component {
 
@@ -22,7 +20,7 @@ class Map extends Component {
     }
 
     return (
-      <div style={{ height: '100vh', width: '87.5%' }} id = "map">
+      <div style={{ height: '100vh', width: '100%' }} id = "map">
         <GoogleMapReact
           bootstrapURLKeys={{ key: API_KEY }}
           defaultCenter={this.props.center}
