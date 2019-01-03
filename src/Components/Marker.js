@@ -2,8 +2,6 @@ import React, { Component} from 'react';
 import 'whatwg-fetch';
 import '../css/Marker.css'
 
-// TODO: when marker is clicked it makes a fetch request and populates infowindow with detailed content
-
 class Marker extends Component {
   render() {
     let activeClass;
