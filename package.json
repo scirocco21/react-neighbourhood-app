@@ -13,6 +13,9 @@
     "save": "^2.3.3",
     "whatwg-fetch": "^3.0.0"
   },
+  "engines": {
+    "node": "11.4.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
