@@ -3,6 +3,7 @@ import '../css/SideBarItem.css'
 
 export default class SideBarItem extends Component {
   clickHandler = () => {
+    this.props.setCenter(this.props.lat, this.props.lng);
     this.props.animateMarker(this.props.id);
     this.props.toggleModal(this.props.id);
   }
