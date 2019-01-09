@@ -11,6 +11,7 @@
   padding-top: 60px;
   text-align: center;
 }
+
 a.closebtn {
   position: absolute;
   top: 0;
@@ -27,17 +28,24 @@ a.closebtn {
 a.openbtn {
   position: absolute;
   top: 8px;
-  font-size: 38px;
+  font-size: 45px;
   text-decoration: none;
   color: red;
-  left: 1px;
+  left: 10px;
 }
 .openbtn:hover {
-  font-size: 44px;
+  color: white;
 }
 nav.hidden {
-  width: 35px;
+  width: 45px;
+  background-color: #282c34;
+  z-index: 10;
 }
+
+nav.hidden > div > h4, nav.hidden > input {
+  display: none;
+}
+
 a.button-hidden {
   display: none;
 }
