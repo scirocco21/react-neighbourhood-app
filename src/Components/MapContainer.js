@@ -18,10 +18,21 @@ class MapContainer extends Component {
        modal: false,
        errorModal: false,
        selectedMuseum: {},
+       center: {
+         lat: 40.77,
+         lng: -73.96
+       },
+       zoom: 14
      }
     }
 
-    // pull up error modal if Foursquare API can't be reached for venue details
+
+  // center map on the museum that is being clicked
+  setCenter = (lat, lng) => {
+    this.setState({center: { lat: lat, lng: lng }})
+  }
+
+  // pull up error modal if Foursquare API can't be reached for venue details
   toggleErrorModal = () => {
     this.setState({
       errorModal: !this.state.errorModal
@@ -66,6 +77,7 @@ class MapContainer extends Component {
          highlightLabel = {this.highlightLabel}
          removeHighlight = {this.removeHighlight}
          toggleModal={this.toggle}
+         setCenter={this.setCenter}
        />
      )
     this.setState({markers: markers, museums: museums})
@@ -119,8 +131,8 @@ class MapContainer extends Component {
 
     return (
       <div>
-        <Map museums={this.props.museums} markers={showingMarkers}/>
-        <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle}/>
+        <Map museums={this.props.museums} markers={showingMarkers} center={this.state.center} zoom={this.state.zoom}/>
+        <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle} setCenter={this.setCenter}/>
         {/* details modal */}
          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
            <ModalHeader toggle={this.toggle}>{museum.name}</ModalHeader>
