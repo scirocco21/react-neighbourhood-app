@@ -1,7 +1,6 @@
 h4 {
   padding: 10px;
   text-decoration: none;
-  outline: none;
   font-size: 17.5px;
   color: #f1f1f1;
   display: block;
@@ -10,6 +9,7 @@ h4 {
 
 h4:hover {
   color: red;
+  cursor: pointer;
 }
 
 h4.highlight {

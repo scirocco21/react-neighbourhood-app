@@ -42,20 +42,49 @@ nav.hidden {
   z-index: 10;
 }
 
-nav.hidden > div > h4, nav.hidden > input {
+nav.hidden > div > h4, nav.hidden > input, nav.hidden > div.select-style {
   display: none;
 }
 
 a.button-hidden {
   display: none;
 }
+
+input {
+  border-radius: 3px;
+}
+
+.select-style {
+  border: 1px solid #ccc;
+  width: 60px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fafafa url("../assets/dropdown.png") no-repeat 90% 50%;
+  background-size: 12px 12px;
+  margin: 0 auto;
+}
+
+.select-style select {
+  padding: 5px 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+
+.select-style select:focus {
+  outline: none;
+}
+
 @media only screen and (max-width: 865px) {
-    .sidenav {
-      width: 33%;
-    }
+  .sidenav {
+    width: 33%;
+  }
 }
 @media only screen and (max-width: 420px) {
-    .sidenav {
-      width: 40%;
-    }
+  .sidenav {
+    width: 40%;
+  }
 }
