@@ -24,7 +24,6 @@ export default class SideBar extends Component {
   handleClose = e => {
     e.preventDefault();
     this.setState({isVisible: false, showOpen: true, showClose: false})
-
   }
 
   render() {
@@ -70,6 +69,14 @@ export default class SideBar extends Component {
         <nav className={"sidenav " + visibility}>
           <a href="#close-menu" className={"closebtn " + closeClass} role="button" aria-pressed="false" onClick={(e) => this.handleClose(e)}>x</a>
           <a href="#menu" className={"openbtn "  + openClass} role="button" aria-pressed="false" onClick={(e)=>this.openSideBar(e)}>&#8250;</a>
+          <br/>
+          <div className="select-style">
+            <select onChange={(e) => this.props.setLimit(parseInt(e.target.value))} tabIndex="2">
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="15">15</option>
+            </select>
+          </div>
           <br/>
           <input
             type="text"

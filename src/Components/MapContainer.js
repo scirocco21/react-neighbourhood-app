@@ -132,7 +132,7 @@ class MapContainer extends Component {
     return (
       <div>
         <Map museums={this.props.museums} markers={showingMarkers} center={this.state.center} zoom={this.state.zoom}/>
-        <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle} setCenter={this.setCenter}/>
+        <SideBar museums={this.state.museums} markers={showingMarkers} animateMarker={this.animateMarker} filterMarkers={this.filterMarkers} filter={this.state.filter} toggleModal={this.toggle} setCenter={this.setCenter} setLimit={this.props.setLimit}/>
         {/* details modal */}
          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
            <ModalHeader toggle={this.toggle}>{museum.name}</ModalHeader>
