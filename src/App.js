@@ -12,6 +12,7 @@ class App extends Component {
     this.state = {
       museums: [],
       modal: false,
+      limit: 10
     };
   }
 
@@ -22,8 +23,17 @@ class App extends Component {
     });
   }
 
+  setLimit = (val) => {
+    this.forceUpdate(this.fetchMuseums(val));
+    this.setState({limit: val});
+  }
+
   // fetch museums data as soon as component mounts and store in state
   componentDidMount() {
+    this.fetchMuseums(this.state.limit)
+  }
+
+  fetchMuseums = (val) => {
     const url = 'https://api.foursquare.com/v2/venues/explore?';
     const CLIENT_ID = process.env.REACT_APP_FOURSQUARE_ID;
     const CLIENT_SECRET = process.env.REACT_APP_FOURSQUARE_SECRET;
@@ -31,7 +41,7 @@ class App extends Component {
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       query: "museums",
-      limit: 10,
+      limit: val,
       near: "New York City",
       v: "20182507"
     }
@@ -48,7 +58,7 @@ class App extends Component {
             NYC Museums Explorer
           </p>
         </header>
-        <MapContainer museums={this.state.museums}  />
+        <MapContainer museums={this.state.museums}  setLimit={this.setLimit}/>
         <ErrorModal toggle={this.toggle} modal={this.state.modal}/>
       </div>
     );
